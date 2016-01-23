@@ -33,7 +33,6 @@ func StreamCommand(r io.Reader, program string, args ...string) (io.Reader, erro
 		latestErr = err
 		return nil, err
 	}
-
 	closeOnErr = append(closeOnErr, stdin)
 
 	stdout, err := cmd.StdoutPipe()
@@ -41,12 +40,12 @@ func StreamCommand(r io.Reader, program string, args ...string) (io.Reader, erro
 		latestErr = err
 		return nil, err
 	}
-
 	closeOnErr = append(closeOnErr, stdout)
+
 	err = cmd.Start()
 	if err != nil {
 		latestErr = err
-		stdin.Close()
+		return nil, err
 	}
 
 	pr, pw := io.Pipe()
